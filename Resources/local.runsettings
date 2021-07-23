@@ -5,5 +5,9 @@
     <Parameter name="EnvironmentUnderTestPort" value="7000" />
     <Parameter name="ExampleDbServer" value="company-sql-env" />
     <Parameter name="ExampleDb" value="company.product.database" />
+    <Parameter name="UseSqlCredential" value="true" />
+    <Parameter name="SqlUsername" value="username" />
+    <Parameter name="SqlPassword" value="password" />
+    <Parameter name="MultiSubnetFailover" value="false" />
   </TestRunParameters>
 </RunSettings>

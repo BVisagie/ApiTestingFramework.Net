@@ -1,4 +1,5 @@
 ﻿using Serilog;
+using System.Data.SqlClient;
 
 namespace ApiTestingFramework.Net.Base
 {
@@ -11,5 +12,10 @@ namespace ApiTestingFramework.Net.Base
         public string EnvironmentUnderTestPort { get; set; }
         public string ExampleDbServer { get; set; }
         public string ExampleDb { get; set; }
+        public SqlCredential SqlCredential { get; set; }
+        public bool UseSqlCredential { get; set; }
+        public string SqlUsername { get; set; }
+        public string SqlPassword { get; set; }
+        public bool MultiSubnetFailover { get; set; }
     }
 }

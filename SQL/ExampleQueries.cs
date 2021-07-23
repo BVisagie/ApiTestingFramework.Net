@@ -1,6 +1,6 @@
 ﻿using ApiTestingFramework.Net.Base;
+using ApiTestingFramework.Net.Utilities;
 using Dapper;
-using System.Data.SqlClient;
 
 namespace ApiTestingFramework.Net.SQL
 {
@@ -13,15 +13,8 @@ namespace ApiTestingFramework.Net.SQL
             this.testInstance = testInstance;
         }
 
-        public string GetConnectionString(string server, string db)
-        {
-            return $"Server={server};Database={db};Integrated Security=True;";
-        }
-
         public int GetRandomSomething()
         {
-            string dbConnectionString = GetConnectionString(testInstance.ExampleDbServer, testInstance.ExampleDb);
-
             const string getRandomSomethingQuery = @"
                                                    SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
                                                    SELECT TOP 1 td.[Value]
@@ -31,9 +24,12 @@ namespace ApiTestingFramework.Net.SQL
                                                    ORDER BY NEWID();
                                                    ";
 
-            using var connection = new SqlConnection(dbConnectionString);
+            var newSqlConnection = new SqlHelpers(testInstance).SetupSqlConnection(server: testInstance.ExampleDbServer, db: testInstance.ExampleDb);
 
-            return connection.ExecuteScalar<int>(getRandomSomethingQuery, commandTimeout: 60);
+            using (newSqlConnection)
+            {
+                return newSqlConnection.ExecuteScalar<int>(getRandomSomethingQuery, commandTimeout: 60);
+            }
         }
     }
 }
